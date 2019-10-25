@@ -31,7 +31,15 @@ typedef struct {
     int top;
 } SeqStack;
 
+typedef struct  StackNode {
+  SElemType data;
+  StackNode *next;
+} ListStackPtr;
 
+typedef struct ListStack {
+  ListStackPtr *top;
+  int count;
+} ListStack;
 
 #ifdef __cplusplus
 #if __cplusplus

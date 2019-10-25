@@ -35,6 +35,42 @@ status pop(SeqStack *stack, SElemType *output)
     return OK;
 }
 
+status push_list(ListStack *stack, SElemType input)
+{
+    ListStackPtr *addStack = NULL;
+    
+    addStack = (ListStackPtr *)malloc(sizeof(ListStackPtr));
+    addStack->data = input;
+    addStack->next = stack->top;
+    stack->top = addStack;
+    stack->count++;
+
+    return OK;
+}
+
+status pop_list(ListStack *stack, SElemType *input)
+{
+    ListStackPtr *tmp = NULL;
+
+    if (stack->count < 1) {
+        return ERR;
+    }
+
+    *input = stack->top->data;
+    tmp = stack->top;
+    stack->top = stack->top->next;
+    free(tmp);
+    stack->count--;
+    tmp = NULL;
+
+    return OK;
+}
+
+status ReversePolishNota()
+{
+    
+}
+
 void main()
 {
     
