@@ -7,7 +7,7 @@
   Description   : reverse list (demo)
 ******************************************************************************/
 
-#include <reverseList.h>
+#include "list.h"
 
 #ifdef __cplusplus
 #if __cplusplus
@@ -53,6 +53,41 @@ void ReverseList(ListNode **list)
     *list = pre;
 }
 
+void InsertList(ListNode *list, int num, ElemType elem)
+{
+    ListNode *chList = list;
+    ListNode *addElem = NULL;
+    int j = 1;
+
+    while((chList != NULL) && (j < num)) {
+        chList = chList->next;
+        j++;
+    }
+    if (chList == NULL || j > num) {
+        return;
+    }
+    addElem = (ListNode *)malloc(sizeof(ListNode));
+    addElem->data = elem;
+    addElem->next = chList->next;
+    chList->next = addElem;
+
+}
+
+void DeleList(ListNode *list, int num)
+{
+    ListNode *chList = list;
+    int j = 1;
+
+    while((chList != NULL) && (j < num)) {
+        chList = chList->next;
+        j++;
+    }
+    if (chList == NULL || j > num) {
+        return;
+    }
+    chList->next = chList->next->next;
+}
+
 void CreateList(ListNode **list, int num)
 {
     ListNode *tmp, *cur;
@@ -77,26 +112,10 @@ void FreeMemo(ListNode *node)
     while(freeAre != NULL) {
         tmp = freeAre->next;
         free(freeAre);
-        freeAre = tmp->next;
+        freeAre = tmp;
     }
     node = NULL;
 }
-
-void main()
-{
-    ListNode *head = NULL;
-    
-    CreateList(&head, 5);
-    printf("\n**************** before reverse ****************\n");
-    PrintList(head->next);
-
-    ReverseList(&head->next);
-    printf("\n**************** after reverse ****************\n");
-    PrintList(head->next);
-
-    FreeMemo(head);
-}
-
 
 #ifdef __cplusplus
 #if __cplusplus

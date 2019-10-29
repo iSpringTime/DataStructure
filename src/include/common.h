@@ -1,19 +1,18 @@
 /******************************************************************************
  * Copyright (c) JingMingGroup All rights reserved.
 -------------------------------------------------------------------------------
-  File name     : reverseList.h
+  File name     : common.h
   Author        : iSpringTime
-  Create        : 2019.10.23
-  Description   : reverse list (demo)
+  Create        : 2019.10.29
+  Description   : common datatype (demo)
 ******************************************************************************/
 
-#ifndef _REVERSE_LIST_H_
-#define _REVERSE_LIST_H_
+#ifndef _COMMON_H_
+#define _COMMON_H_
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h>
-#include <time.h>
 
 #ifdef __cplusplus
 #if __cplusplus
@@ -21,11 +20,9 @@ extern "C" {
 #endif
 #endif /* __cplusplus */
 
-typedef int ElemType;
-typedef struct Node {
-    ElemType data;
-    struct Node *next;
-} ListNode;
+typedef int status;
+#define ERR 1
+#define OK  0
 
 #ifdef __cplusplus
 #if __cplusplus
