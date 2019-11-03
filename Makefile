@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -g -Wall
 TARGET = main
-SRC = ./src 
+SRC = ./src
 FILES = $(foreach dir, $(SRC), $(wildcard $(dir)/*.c))
 OBJS = $(patsubst %.c, %.o,$(FILES))
 BUILD_DIR := ./build
