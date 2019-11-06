@@ -13,7 +13,6 @@ public class Chain<T> extends ExtendLinearList<T> {
             }
         }
     }
-
     Chain(T theHeaderValue) {
         this.headerNode = new ChainNode<>(theHeaderValue, null);
         this.lastNode = this.headerNode;
@@ -33,7 +32,6 @@ public class Chain<T> extends ExtendLinearList<T> {
                 targetNode.next = newNode;
                 targetNode = targetNode.next;
                 sourceNode = sourceNode.next;
-                this.listSize++;
             }
         } else {
             this.headerNode = new ChainNode<>((T) theChain.headerNode.element, null);
@@ -55,32 +53,82 @@ public class Chain<T> extends ExtendLinearList<T> {
 
     @Override
     public boolean empty() {
-        return false;
+        return this.listSize == 0;
     }
 
     @Override
     public int size() {
-        return 0;
+        return this.listSize;
     }
 
     @Override
     public T get(int theIndex) {
-        return null;
+        try {
+            this.checkIndex(theIndex);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        ChainNode<T> curNode = this.headerNode.next;
+        byte index = 0;
+        while (index != theIndex) {
+            index++;
+            curNode = curNode.next;
+        }
+        return curNode.element;
     }
 
     @Override
     public int indexOf(T theElement) {
-        return 0;
+        int index = 0;
+        ChainNode<T> curNode = this.headerNode.next;
+        while (curNode != null) {
+            if (curNode.element == theElement) {
+                return index;
+            }
+            index++;
+            curNode = curNode.next;
+        }
+        return -1;
     }
 
     @Override
     public void erase(int theIndex) {
-
+        try {
+            this.checkIndex(theIndex);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+            return ;
+        }
+        int index = 0;
+        ChainNode<T> curNode = this.headerNode;
+        while (index != theIndex) {
+            curNode = curNode.next;
+            index++;
+        }
+        ChainNode<T> deleteNode = curNode.next;
+        curNode.next = deleteNode.next;
+        deleteNode.next = null;
+        this.listSize--;
     }
 
     @Override
     public void insert(int theIndex, T theElement) {
-
+        try {
+            this.checkIndex(theIndex);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+            return ;
+        }
+        int index = 0;
+        ChainNode<T> curNode = this.headerNode;
+        while (index != theIndex) {
+            curNode = curNode.next;
+            index++;
+        }
+        ChainNode<T> newNode = new ChainNode<>(theElement, curNode.next);
+        curNode.next = newNode;
+        this.listSize++;
     }
 
     @Override
