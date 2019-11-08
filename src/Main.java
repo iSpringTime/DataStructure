@@ -1,18 +1,19 @@
 public class Main {
     public static void main(String[] args) {
-        Chain<Integer> chain = new Chain<>(0);
-        chain.push_back(1);
-        chain.push_back(2);
-        chain.push_back(3);
-        chain.push_back(4);
-        chain.push_back(5);
-        chain.output();
-        Chain<Integer> b = new Chain<>(chain);
-        chain.output();
-        System.out.println(b.get(6));
-        System.out.println(b.indexOf(6));
-        b.insert(4, 9);
+        ChainExercise<Integer> a = new ChainExercise<>();
+        a.push_back(1);
+        a.push_back(2);
+        a.push_back(6);
+        a.push_back(9);
+        a.output();
+        ChainExercise<Integer> b = new ChainExercise<>();
+        b.push_back(3);
+        b.push_back(4);
+        b.push_back(7);
+        b.push_back(8);
         b.output();
+        a.melt(b).output();
+        a.output();
         System.out.println("hello world!");
     }
 }

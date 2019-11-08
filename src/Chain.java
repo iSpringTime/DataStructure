@@ -3,25 +3,27 @@ import org.jetbrains.annotations.NotNull;
 
 public class Chain<T> extends ExtendLinearList<T> {
 
-    private int listSize = 0;
-    private ChainNode<T> headerNode;
-    private ChainNode<T> lastNode;
-    private void checkIndex(int theIndex) {
+    protected int listSize = 0;
+    protected ChainNode<T> headerNode;
+    protected ChainNode<T> lastNode;
+    protected void checkIndex(int theIndex) {
         if (this.listSize != 0) {
             if (theIndex < 0 || theIndex >= this.listSize) {
                 throw new ArrayIndexOutOfBoundsException("out of border");
             }
         }
     }
-    Chain(T theHeaderValue) {
-        this.headerNode = new ChainNode<>(theHeaderValue, null);
+    Chain() {
+        this.headerNode = new ChainNode<>();
         this.lastNode = this.headerNode;
+        this.headerNode.next = null;
     }
 
     @SuppressWarnings("unchecked")
-    public Chain(@NotNull final Chain theChain) {
+    Chain(@NotNull final Chain theChain) {
         if (theChain.listSize != 0) {
             this.listSize = theChain.listSize;
+            this.lastNode = theChain.lastNode;
             ChainNode<T> newNode = new ChainNode<>((T) theChain.headerNode.element, null);
             this.headerNode = newNode;
 
@@ -35,12 +37,13 @@ public class Chain<T> extends ExtendLinearList<T> {
             }
         } else {
             this.headerNode = new ChainNode<>((T) theChain.headerNode.element, null);
+            this.lastNode = this.headerNode;
         }
     }
 
     @Override
     public void clear() {
-
+        // TODO I think this function is not mandatory
     }
 
     @Override
@@ -126,8 +129,7 @@ public class Chain<T> extends ExtendLinearList<T> {
             curNode = curNode.next;
             index++;
         }
-        ChainNode<T> newNode = new ChainNode<>(theElement, curNode.next);
-        curNode.next = newNode;
+        curNode.next = new ChainNode<>(theElement, curNode.next);
         this.listSize++;
     }
 
@@ -145,15 +147,13 @@ public class Chain<T> extends ExtendLinearList<T> {
 class ChainNode<T> {
     T element;
     ChainNode<T> next;
-
-    @Contract(pure = true)
-    public ChainNode(T element) {
-        this.element = element;
-    }
-
     @Contract(pure = true)
     ChainNode(T element, ChainNode<T> next) {
         this.element = element;
         this.next = next;
+    }
+
+    ChainNode() {
+
     }
 }
