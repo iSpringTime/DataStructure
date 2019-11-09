@@ -1,5 +1,5 @@
 // P126 24
-public class MoveLeftAndRightOnChain<T> extends Chain<T> {
+public class MoveLeftAndRightOnChain<T extends Comparable<T>> extends Chain<T> {
     private ChainNode<T> p;
     private ChainNode<T> l;
     MoveLeftAndRightOnChain(Chain<T> theChain) {

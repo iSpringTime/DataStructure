@@ -1,7 +1,7 @@
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
-public class Chain<T> extends ExtendLinearList<T> {
+public class Chain<T extends Comparable<T>> extends ExtendLinearList<T> {
 
     protected int listSize = 0;
     protected ChainNode<T> headerNode;
@@ -81,6 +81,22 @@ public class Chain<T> extends ExtendLinearList<T> {
         return curNode.element;
     }
 
+    public ChainNode<T> getNodeOfIndex(int theIndex) {
+        try {
+            this.checkIndex(theIndex);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        ChainNode<T> curNode = this.headerNode.next;
+        byte index = 0;
+        while (index != theIndex) {
+            index++;
+            curNode = curNode.next;
+        }
+        return curNode;
+    }
+
     @Override
     public int indexOf(T theElement) {
         int index = 0;
@@ -141,6 +157,82 @@ public class Chain<T> extends ExtendLinearList<T> {
             curNode = curNode.next;
         }
         System.out.println();
+    }
+
+    // P126 26
+    public void insert(int theIndex, ChainNode<T> insertNode, boolean decrease) {
+        ChainNode<T> curNode = this.headerNode.next;
+        ChainNode<T> preNode = this.headerNode;
+        int index;
+        for (index = theIndex; index > 0 && decrease ? insertNode.element.compareTo(curNode.element) < 0 :insertNode.element.compareTo(curNode.element) > 0; index--) {
+            curNode = curNode.next;
+            preNode = preNode.next;
+        }
+        if (theIndex != 0 && index != 0) {
+            if (index == theIndex) {
+                while (curNode.next != insertNode) {
+                    curNode = curNode.next;
+                }
+                curNode.next = insertNode.next;
+                insertNode.next = this.headerNode.next;
+                this.headerNode.next = insertNode;
+            } else {
+                while (curNode.next != insertNode) {
+                    curNode = curNode.next;
+                }
+                curNode.next = insertNode.next;
+                insertNode.next = preNode.next;
+                preNode.next = insertNode;
+            }
+        }
+    }
+
+    public void insertSort(boolean decrease) {
+        ChainNode<T> curNode;
+        for (int sortCount = 0; sortCount < this.listSize; sortCount++) {
+            curNode = this.getNodeOfIndex(sortCount);
+            this.insert(sortCount, curNode, decrease);
+        }
+    }
+
+    //
+    void bubbleSort(boolean decrease) {
+        ChainNode<T> curNode;
+        ChainNode<T> tmpNode;
+        for (int times = this.listSize-1; times > 0; times--) {
+            ChainNode<T> maxNode = this.headerNode.next;
+            curNode = maxNode.next;
+            tmpNode = maxNode;
+            for (int theIndex = 1; theIndex <= times; theIndex++) {
+                if (decrease ? maxNode.element.compareTo(curNode.element) > 0 : maxNode.element.compareTo(curNode.element) < 0) {
+                    maxNode = curNode;
+                }
+                curNode = curNode.next;
+                tmpNode = tmpNode.next;
+            }
+            curNode = tmpNode;
+            if (maxNode == this.headerNode.next) {
+                this.headerNode.next = maxNode.next;
+                maxNode.next = curNode.next;
+                curNode.next = maxNode;
+            } else if (maxNode == curNode) {
+                continue;
+            } else {
+                ChainNode<T> preNode = this.headerNode;
+                while (preNode.next != maxNode) {
+                    preNode = preNode.next;
+                }
+                preNode.next = maxNode.next;
+                if (curNode == this.lastNode) {
+                    maxNode.next = null;
+                    curNode.next = maxNode;
+                    this.lastNode = maxNode;
+                } else {
+                    maxNode.next = curNode.next;
+                    curNode.next = maxNode;
+                }
+            }
+        }
     }
 }
 
