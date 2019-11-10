@@ -131,6 +131,26 @@ public class Chain<T extends Comparable<T>> extends ExtendLinearList<T> {
         this.listSize--;
     }
 
+    ChainNode<T> eraseNode(int theIndex) {
+        try {
+            this.checkIndex(theIndex);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        int index = 0;
+        ChainNode<T> curNode = this.headerNode;
+        while (index != theIndex) {
+            curNode = curNode.next;
+            index++;
+        }
+        ChainNode<T> deleteNode = curNode.next;
+        curNode.next = deleteNode.next;
+        deleteNode.next = null;
+        this.listSize--;
+        return deleteNode;
+    }
+
     @Override
     public void insert(int theIndex, T theElement) {
         try {
@@ -146,6 +166,24 @@ public class Chain<T extends Comparable<T>> extends ExtendLinearList<T> {
             index++;
         }
         curNode.next = new ChainNode<>(theElement, curNode.next);
+        this.listSize++;
+    }
+
+    void insert(int theIndex, ChainNode<T> oneNode) {
+        try {
+            this.checkIndex(theIndex);
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println(e.getMessage());
+            return ;
+        }
+        int index = 0;
+        ChainNode<T> curNode = this.headerNode;
+        while (index != theIndex) {
+            curNode = curNode.next;
+            index++;
+        }
+        oneNode.next = curNode.next;
+        curNode.next = oneNode;
         this.listSize++;
     }
 
@@ -195,7 +233,7 @@ public class Chain<T extends Comparable<T>> extends ExtendLinearList<T> {
         }
     }
 
-    //
+    // P126 27 (1)
     void bubbleSort(boolean decrease) {
         ChainNode<T> curNode;
         ChainNode<T> tmpNode;
@@ -233,6 +271,66 @@ public class Chain<T extends Comparable<T>> extends ExtendLinearList<T> {
                 }
             }
         }
+    }
+
+    // P126 27 (2)
+    /*
+    Needn't move ChainNode like bubbleSort, we could only move element to rearrange the element.
+     */
+    void selectionSort(boolean decrease) {
+        ChainNode<T> curNode;
+        ChainNode<T> tmpNode;
+        for (int times = this.listSize-1; times > 0; times--) {
+            ChainNode<T> maxNode = this.headerNode.next;
+            curNode = maxNode.next;
+            tmpNode = maxNode;
+            for (int theIndex = 1; theIndex <= times; theIndex++) {
+                if (decrease ? maxNode.element.compareTo(curNode.element) > 0 : maxNode.element.compareTo(curNode.element) < 0) {
+                    maxNode = curNode;
+                }
+                curNode = curNode.next;
+                tmpNode = tmpNode.next;
+            }
+            curNode = tmpNode;
+            T tmp;
+            tmp = curNode.element;
+            curNode.element = maxNode.element;
+            maxNode.element = tmp;
+        }
+    }
+
+    // P126 27 (3)
+    /*
+    ranking the
+     */
+    void rankSort(boolean decrease) {
+        int[] index = new int[this.listSize];
+        ChainNode<T> curNode = this.headerNode.next;
+        for (int times = 0; times < this.listSize; times++) {
+            ChainNode<T> tmpNode = this.headerNode.next;
+            for (int theIndex = 0; theIndex < this.listSize; theIndex++) {
+                if (decrease ? curNode.element.compareTo(tmpNode.element) < 0 : curNode.element.compareTo(tmpNode.element) > 0) {
+                    index[times]++;
+                } else if (curNode.element.compareTo(tmpNode.element) == 0 && theIndex < times) {
+                    index[times]++;
+                }
+                tmpNode = tmpNode.next;
+            }
+            curNode = curNode.next;
+        }
+        curNode = this.headerNode.next;
+        Chain<T> newChain = new Chain<>();
+        for (int theIndex = 0; theIndex < this.listSize; theIndex++) {
+            ChainNode<T> tmpNode = curNode;
+            for (int i = 0; i < this.listSize; i++) {
+                if (index[i] == theIndex) {
+                    newChain.push_back(tmpNode.element);
+                    continue;
+                }
+                tmpNode = tmpNode.next;
+            }
+        }
+        this.headerNode.next = newChain.headerNode.next;
     }
 }
 
