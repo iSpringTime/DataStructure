@@ -3,38 +3,28 @@
 -------------------------------------------------------------------------------
   File name     : queue.h
   Author        : iSpringTime
-  Create        : 2019.10.24
+  Create        : 2019.10.23
   Description   : queue operation (demo)
 ******************************************************************************/
 
 #ifndef _QUEUE_H_
 #define _QUEUE_H_
 
-#include "common.h"
-
-#ifdef __cplusplus
-#if __cplusplus
-extern "C" {
-#endif
-#endif /* __cplusplus */
-
 typedef int QElemType;
-typedef struct QNode {
-  QElemType date;
-  struct QNode *next;
-}QueueNode, *QueuePtr;
+typedef struct QNode{
+    QElemType data;
+    struct QNode *next;
+} QNode, *Queue;
 
-typedef struct {
-  QueuePtr rear, front;
-}QueueList;
+//队列的结构，嵌套
+typedef struct{
+    Queue front;
+    Queue rear;
+} LinkQueue;
 
-status EnQueue(QueueList *queueList, QElemType e);
-status DeQueue(QueueList *queueList, QElemType *e);
-
-#ifdef __cplusplus
-#if __cplusplus
-}
-#endif
-#endif /* __cplusplus */
+void initQueue(LinkQueue *queue);
+bool isEmpty(LinkQueue queue);
+void insertQueue(LinkQueue *queue, QElemType temp);
+void deleteQueue(LinkQueue *queue, QElemType *ret);
 
 #endif
