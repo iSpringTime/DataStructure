@@ -1,41 +1,30 @@
 /******************************************************************************
  * Copyright (c) JingMingGroup All rights reserved.
 -------------------------------------------------------------------------------
-  File name     : reverseList.h
+  File name     : queue.h
   Author        : iSpringTime
   Create        : 2019.10.23
-  Description   : reverse list (demo)
+  Description   : queue operation (demo)
 ******************************************************************************/
 
-#ifndef _REVERSE_LIST_H_
-#define _REVERSE_LIST_H_
+#ifndef _QUEUE_H_
+#define _QUEUE_H_
 
-#include "common.h"
-#include <time.h>
+typedef int QElemType;
+typedef struct QNode{
+    QElemType data;
+    struct QNode *next;
+} QNode, *Queue;
 
-#ifdef __cplusplus
-#if __cplusplus
-extern "C" {
-#endif
-#endif /* __cplusplus */
+//队列的结构，嵌套
+typedef struct{
+    Queue front;
+    Queue rear;
+} LinkQueue;
 
-typedef int ElemType;
-typedef struct Node {
-    ElemType data;
-    struct Node *next;
-} ListNode;
-
-void PrintList(ListNode *list);
-void ReverseList(ListNode **list);
-void InsertList(ListNode *list, int num, ElemType elem);
-void DeleList(ListNode *list, int num);
-void CreateList(ListNode **list, int num);
-void FreeMemo(ListNode *node);
-
-#ifdef __cplusplus
-#if __cplusplus
-}
-#endif
-#endif /* __cplusplus */
+void initQueue(LinkQueue *queue);
+bool isEmpty(LinkQueue queue);
+void insertQueue(LinkQueue *queue, QElemType temp);
+void deleteQueue(LinkQueue *queue, QElemType *ret);
 
 #endif
