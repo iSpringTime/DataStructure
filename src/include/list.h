@@ -1,30 +1,27 @@
 /******************************************************************************
  * Copyright (c) JingMingGroup All rights reserved.
 -------------------------------------------------------------------------------
-  File name     : queue.h
+  File name     : List.h
   Author        : iSpringTime
   Create        : 2019.10.23
-  Description   : queue operation (demo)
+  Description   : list (demo)
 ******************************************************************************/
 
-#ifndef _QUEUE_H_
-#define _QUEUE_H_
+#ifndef _LIST_H_
+#define _LIST_H_
 
-typedef int QElemType;
-typedef struct QNode{
-    QElemType data;
-    struct QNode *next;
-} QNode, *Queue;
+typedef int ElemType;
+typedef struct Node{
+    ElemType data;
+    struct Node *next;
+} ListNode;
 
-//队列的结构，嵌套
-typedef struct{
-    Queue front;
-    Queue rear;
-} LinkQueue;
-
-void initQueue(LinkQueue *queue);
-bool isEmpty(LinkQueue queue);
-void insertQueue(LinkQueue *queue, QElemType temp);
-void deleteQueue(LinkQueue *queue, QElemType *ret);
+void PrintList(ListNode *list);
+void ReverseList(ListNode **list);
+void InsertList(ListNode *list, int num, ElemType elem);
+void GetList(ListNode *list, int num, ElemType elem);
+void DeleList(ListNode *list, int num);
+void CreateList(ListNode **list, int num);
+void FreeMemo(ListNode *node);
 
 #endif
