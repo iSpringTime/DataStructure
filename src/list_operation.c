@@ -1,19 +1,19 @@
 /******************************************************************************
  * Copyright (c) JingMingGroup All rights reserved.
 -------------------------------------------------------------------------------
-  File name     : reverseList.c
+  File name     : List.c
   Author        : iSpringTime
   Create        : 2019.10.23
-  Description   : reverse list (demo)
+  Description   : list (demo)
 ******************************************************************************/
 
 #include "list.h"
-
-#ifdef __cplusplus
-#if __cplusplus
-extern "C" {
-#endif
-#endif /* __cplusplus */
+#include "stdio.h"
+#include "string.h"
+#include "stdlib.h"
+#include "malloc.h"
+#include "math.h"
+#include "time.h"
 
 void PrintList(ListNode *list)
 {
@@ -70,7 +70,6 @@ void InsertList(ListNode *list, int num, ElemType elem)
     addElem->data = elem;
     addElem->next = chList->next;
     chList->next = addElem;
-
 }
 
 void DeleList(ListNode *list, int num)
@@ -85,6 +84,22 @@ void DeleList(ListNode *list, int num)
     if (chList == NULL || j > num) {
         return;
     }
+    chList->next = chList->next->next;
+}
+
+void GetList(ListNode *list, int num, ElemType elem)
+{
+    ListNode *chList = list;
+    int j = 1;
+
+    while((chList != NULL) && (j < num)) {
+        chList = chList->next;
+        j++;
+    }
+    if (chList == NULL || j > num) {
+        return;
+    }
+    elem = chList->next->data;
     chList->next = chList->next->next;
 }
 
@@ -116,9 +131,3 @@ void FreeMemo(ListNode *node)
     }
     node = NULL;
 }
-
-#ifdef __cplusplus
-#if __cplusplus
-}
-#endif
-#endif /* __cplusplus */
