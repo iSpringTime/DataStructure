@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -g -Wall
+CFLAGS = -g -Wall -Wl,--no-undefined
 TARGET = main
 SRC = ./src
 FILES = $(foreach dir, $(SRC), $(wildcard $(dir)/*.c))

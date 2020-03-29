@@ -5,7 +5,6 @@
 #include "malloc.h"
 #include "math.h"
 
-#define ARRY_SIZE 100
 //初始化
 //开始必然是空队列，队尾指针和队头指针都指向头结点
 void swap(int *left, int *right)
@@ -60,35 +59,3 @@ void qsort(int a[], int left, int right)
     }
 }
 
-int delSameElem(int arr[], int num, int new_arr[]) 
-{
-    int i;
-    int newArryLen = 0;
-
-    bool flag[ARRY_SIZE] = {0};
-    for (i = 0;i < num;i++) {
-        if(flag[arr[i]] == false) {
-            new_arr[newArryLen++] = arr[i];
-            flag[arr[i]] = true;
-        }
-    }
-    return newArryLen;
-}
-
-bool delSameElemInsort(int arr[], int length, int *newLength)
-{
-    if(arr == NULL || length == 0) {
-        return false;
-    }
-
-    int count = 1;
-    for (int i = 1;i < length;i++) {
-        if (arr[i] == arr[i - 1]) {
-            continue;
-        } else {
-             arr[count++] = arr[i];
-        }
-    }
-    *newLength = count;
-    return true;
-}

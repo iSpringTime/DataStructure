@@ -13,7 +13,5 @@
 void swap(int *left, int *right);
 void BubbleSort2(int arr[], int num);
 void qsort(int a[], int left, int right);
-int delSameElem(int arr[], int num, int new_arr[]);
-bool delSameElemInsort(int arr[], int length, int *newLength);
 
 #endif
